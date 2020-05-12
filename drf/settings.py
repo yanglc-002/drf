@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'drfapi',
     'drfapi02',
-
+    'drfapi03',
 ]
 
 MIDDLEWARE = [

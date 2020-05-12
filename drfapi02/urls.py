@@ -12,5 +12,7 @@ urlpatterns = [
     # 新增 category的路由
     path("category/", views.category_list, name="category-list"),
     path("category/<int:id>/", views.category_detail, name="category-detail"),
-
+    # 新增 Tag的路由
+    path("tag/", views.tag_list, name="tag-list"),
+    path("tag/<int:id>/", views.tag_detail, name="tag-detail")
 ]

@@ -26,7 +26,8 @@ router.register(r'groups', views.GroupViewSet)  #访问：http://127.0.0.1:8000/
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('api/', include(router.urls)),  #=> 返回http://127.0.0.1:8000/api
-    path('api/', include(('drfapi02.urls', 'drfapi02'), namespace="drfapi02")) #指向 drfapi02 下的 urls.py => http://127.0.0.1:8000/api/article/
+    # path('api/', include(('drfapi02.urls', 'drfapi02'), namespace="drfapi02")), #指向 drfapi02 下的 urls.py => http://127.0.0.1:8000/api/article/
+    path('api/', include(('drfapi03.urls', 'drfapi03'), namespace="drfapi03"))
     # path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))  #认证
 
 ]

@@ -1,8 +1,8 @@
-from .serializers import ArticleSerializer,CategorySerializer
+from .serializers import ArticleSerializer,CategorySerializer,TagSerializer
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from django.http import HttpResponse
-from .models import Article,Category
+from .models import Article,Category,Tag
 from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
@@ -37,6 +37,9 @@ def article_list(request):
             ser.save()
             return JSONResponse(ser.data, status=201)  # 状态码(status)到 RESTFul介绍中去找，里面有详细的说明
         return JSONResponse(ser.errors, status=400)
+
+
+
 
 
 
@@ -131,3 +134,55 @@ def category_detail(request,id):
     elif request.method == "DELETE":
         art.delete()
         return HttpResponse(status=204)
+
+
+
+@csrf_exempt
+def tag_list(request):
+    if request.method == "GET":
+        arts = Tag.objects.all()
+        ser = TagSerializer(instance=arts, many=True,context={'request':request})
+        return JSONResponse(ser.data, status=200)
+    elif request.method == "POST":
+        data = JSONParser().parse(request)
+        ser = TagSerializer(data=data,many=True)
+        if ser.is_valid():
+            ser.save()
+            return JSONResponse(ser.data, status=201)
+        return JSONResponse(ser.errors,status=401)
+
+
+@csrf_exempt
+def tag_detail(request,id):
+    try:
+        art = Tag.objects.get(id=id)
+    except Tag.DoesNotExist as e:
+        return HttpResponse(status=404)
+
+    if request.method == "GET":
+        ser = TagSerializer(instance=art,context={'request':request})
+        return JSONResponse(ser.data,status=200)
+
+    elif request.method == "PUT":
+        data = JSONParser().parse(request)
+        ser = TagSerializer(instance=art,data=data,context={'request':request})
+        if ser.is_valid():
+            ser.save()
+            return JSONResponse(ser.data,status=201)
+        return JSONResponse(ser.errors,status=400)
+    elif request.method == "PATCH":
+        data = JSONParser().parse(request)
+        ser = TagSerializer(instance=art,data=data,partial=True,context={'request':request})
+        if ser.is_valid():
+            ser.save()
+            return JSONResponse(ser.data,status=201)
+        return JSONResponse(ser.errors,status=400)
+
+    elif request.method == "DELETE":
+        art.delete()
+        return HttpResponse(status=204)
+
+
+
+
+
